@@ -47,7 +47,7 @@ What is a container technically?
 
 Different between docker image and docker container
 * Docker image => It's the actual package that can be moved around.
-* Container is the actual running image.
+* Container is the running environment for image.
 * docker ps --> to get the container id
 
 What is the difference between docker and VM?
@@ -60,3 +60,27 @@ What is the difference between docker and VM?
 * Compatibility: VM of any OS can run on any OS host. Same is not true with docker.
     * A linux based docker image might not be compatible with a windows based docker kernel. This is true for older windows versions.
     * Workaround: docker toolbox. ==> abstracts the os kernel to make it possible to run different docker images.
+
+Components of a container
+* Application image: postgres, redis, mongo, ...
+* Environment configs
+* It also has a port binded to it to talk to the application running inside of container.
+* The file system in a container is virtual. It has its own abstraction of the OS.
+
+Docker Commands:
+* docker images => list images, ps => list all running containers
+* docker run -d redis => detached mode. => pull the image and start the container.
+* docker stop container_id
+* docker start container_id => start the stopped container.
+* docker ps -a => list running and stopped containers.
+* If we are running two different redis versions via docker, how do we ensure that there are no conflicts?
+
+Container Post vs Host Port
+* How does docker port binding work?
+    https://betterprogramming.pub/how-does-docker-port-binding-work-b089f23ca4c8
+    * Docker containers can connect to the outside world without any configuration.
+    * But the outside world cannot connect to the docker container by default. 
+* While running the docker ps command, we see the container port and not the host port. The host port has to be different else it would lead to a conflict.
+* We can do the port binding via the -p flag in the docker run command.
+    docker run -p hostPort:containerPort.
+* After this, you'll be able to see the bindings when running docker ps.
